@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CNN 이미지 분석 웹앱</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 CNN 이미지 분석 웹앱</h1>
+            <p>TensorFlow 기반 딥러닝 모델로 이미지를 분석해보세요</p>
+        </header>
+
+        <main>
+            <div class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-content">
+                        <div class="upload-icon">📁</div>
+                        <h3>이미지를 업로드하세요</h3>
+                        <p>클릭하거나 드래그하여 이미지 파일을 선택하세요</p>
+                        <input type="file" id="imageInput" accept="image/*" hidden>
+                        <button class="upload-btn" onclick="document.getElementById('imageInput').click()">
+                            파일 선택
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="preview-section" id="previewSection" style="display: none;">
+                <h3>업로드된 이미지</h3>
+                <div class="image-preview">
+                    <img id="previewImage" alt="업로드된 이미지">
+                </div>
+                <button class="analyze-btn" id="analyzeBtn">🔍 이미지 분석하기</button>
+            </div>
+
+            <div class="result-section" id="resultSection" style="display: none;">
+                <h3>분석 결과</h3>
+                <div class="result-card">
+                    <div class="result-header">
+                        <h4 id="predictedClass">예측 클래스</h4>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" id="confidenceFill"></div>
+                            <span class="confidence-text" id="confidenceText">0%</span>
+                        </div>
+                    </div>
+                    <div class="result-description">
+                        <p id="resultDescription">이미지 설명이 여기에 표시됩니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="loading-section" id="loadingSection" style="display: none;">
+                <div class="loading-spinner"></div>
+                <p>이미지를 분석하고 있습니다...</p>
+            </div>
+
+            <div class="error-section" id="errorSection" style="display: none;">
+                <div class="error-message">
+                    <h4>❌ 오류가 발생했습니다</h4>
+                    <p id="errorText">오류 메시지가 여기에 표시됩니다.</p>
+                    <button class="retry-btn" onclick="resetApp()">다시 시도</button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="info-section">
+                <h4>📊 모델 정보</h4>
+                <div class="model-info">
+                    <div class="info-item">
+                        <span class="info-label">모델:</span>
+                        <span class="info-value">CIFAR-10 CNN</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">클래스:</span>
+                        <span class="info-value">10개 (비행기, 자동차, 새, 고양이, 사슴, 개, 개구리, 말, 배, 트럭)</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">프레임워크:</span>
+                        <span class="info-value">TensorFlow 2.15.0</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
