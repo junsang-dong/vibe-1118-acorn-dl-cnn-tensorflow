@@ -2,6 +2,12 @@
 
 TensorFlow를 활용한 CNN 기반 이미지 분류 웹앱입니다. CIFAR-10 데이터셋으로 학습된 모델을 사용하여 업로드된 이미지를 분석하고 예측 결과를 시각화합니다.
 
+## 🌐 라이브 데모
+
+**[https://vibe-1118-acorn-dl-cnn-tensorflow-production.up.railway.app/](https://vibe-1118-acorn-dl-cnn-tensorflow-production.up.railway.app/)**
+
+Railway에 배포된 웹앱으로, 위 링크에서 바로 이미지 분석을 체험할 수 있습니다.
+
 ## 🚀 주요 기능
 
 - **이미지 업로드**: 드래그 앤 드롭 또는 클릭으로 이미지 업로드
@@ -28,7 +34,7 @@ CIFAR-10 데이터셋의 10개 클래스를 지원합니다:
 ## 🛠️ 기술 스택
 
 ### 백엔드
-- **Python 3.9+**
+- **Python 3.11.14** (배포 호환성)
 - **TensorFlow 2.15.0** - 딥러닝 프레임워크
 - **Flask 3.0.0** - 웹 프레임워크
 - **OpenCV** - 이미지 처리
@@ -49,6 +55,8 @@ vibe-1118-acorn-dl-cnn-tensorflow/
 ├── Procfile               # Railway/Render 배포용
 ├── render.yaml            # Render Blueprint 설정
 ├── runtime.txt            # Python 버전 (Railway)
+├── .python-version        # Python 3.11.14 (mise/Railway)
+├── .tool-versions         # Python 버전 (mise)
 ├── train_model.py         # CNN 모델 학습 코드
 ├── quick_train.py         # 빠른 모델 학습 (샘플 데이터)
 ├── requirements.txt       # Python 패키지 의존성
@@ -112,7 +120,8 @@ http://localhost:5151
 2. **New Project** → **Deploy from GitHub repo** 선택
 3. `junsang-dong/vibe-1118-acorn-dl-cnn-tensorflow` 저장소 선택
 4. Railway가 자동으로 `Procfile`과 `requirements.txt`를 인식
-5. 배포 완료 후 생성된 URL로 접속
+5. 배포 완료 후 **Settings** → **Networking** → **Generate Domain**으로 공개 URL 생성
+6. 생성된 `*.up.railway.app` URL로 접속
 
 ### Render 배포
 
@@ -128,6 +137,10 @@ http://localhost:5151
 
 **배포 전 확인사항**
 - `models/cifar10_classifier.h5`와 `models/class_names.json`이 GitHub에 커밋되어 있어야 합니다.
+
+**Railway 배포 시 참고**
+- Python 3.11.14 사용 (TensorFlow 2.15 호환, mise precompiled 바이너리 지원)
+- Trial 플랜에서는 **Generate Domain**을 눌러야 공개 URL이 생성됩니다.
 
 ## 📖 사용 방법
 
