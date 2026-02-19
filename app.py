@@ -1,14 +1,15 @@
 from flask import Flask, request, render_template, jsonify
 import tensorflow as tf
 import numpy as np
-import cv2
 from PIL import Image
 import json
 import os
-import base64
 from io import BytesIO
 
 app = Flask(__name__)
+
+# 프로젝트 루트 경로 (배포 환경 대응)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # 모델과 클래스 이름 로드
 model = None
@@ -19,12 +20,14 @@ def load_model():
     global model, class_names
     
     try:
-        # 모델 로드
-        model = tf.keras.models.load_model('models/cifar10_classifier.h5')
+        # 모델 로드 (배포 시 경로 안정화)
+        model_path = os.path.join(BASE_DIR, 'models', 'cifar10_classifier.h5')
+        class_names_path = os.path.join(BASE_DIR, 'models', 'class_names.json')
+        model = tf.keras.models.load_model(model_path)
         print("모델이 성공적으로 로드되었습니다.")
         
         # 클래스 이름 로드
-        with open('models/class_names.json', 'r') as f:
+        with open(class_names_path, 'r') as f:
             class_names = json.load(f)
         print(f"클래스 이름이 로드되었습니다: {class_names}")
         
@@ -164,9 +167,10 @@ def health():
         'classes_loaded': class_names is not None
     })
 
+# gunicorn 등 프로덕션 서버에서도 모델 로드
+load_model()
+
 if __name__ == '__main__':
-    # 모델 로드
-    load_model()
-    
-    # Flask 앱 실행
-    app.run(debug=True, host='0.0.0.0', port=8080)
+    # 로컬 개발용: PORT 환경변수 지원 (Railway, Render 등)
+    port = int(os.environ.get('PORT', 5151))
+    app.run(debug=True, host='0.0.0.0', port=port)

@@ -46,6 +46,9 @@ CIFAR-10 데이터셋의 10개 클래스를 지원합니다:
 ```
 vibe-1118-acorn-dl-cnn-tensorflow/
 ├── app.py                 # Flask 웹앱 메인 파일
+├── Procfile               # Railway/Render 배포용
+├── render.yaml            # Render Blueprint 설정
+├── runtime.txt            # Python 버전 (Railway)
 ├── train_model.py         # CNN 모델 학습 코드
 ├── quick_train.py         # 빠른 모델 학습 (샘플 데이터)
 ├── requirements.txt       # Python 패키지 의존성
@@ -96,8 +99,35 @@ python3 app.py
 
 ### 6. 브라우저에서 접속
 ```
-http://localhost:5000
+http://localhost:5151
 ```
+
+## ☁️ 배포 (Railway / Render)
+
+이 프로젝트는 **Railway** 또는 **Render**에 바로 배포할 수 있습니다.
+
+### Railway 배포
+
+1. [railway.app](https://railway.app) 접속 후 GitHub 로그인
+2. **New Project** → **Deploy from GitHub repo** 선택
+3. `junsang-dong/vibe-1118-acorn-dl-cnn-tensorflow` 저장소 선택
+4. Railway가 자동으로 `Procfile`과 `requirements.txt`를 인식
+5. 배포 완료 후 생성된 URL로 접속
+
+### Render 배포
+
+1. [render.com](https://render.com) 접속 후 GitHub 로그인
+2. **New** → **Web Service** 선택
+3. 저장소 연결: `junsang-dong/vibe-1118-acorn-dl-cnn-tensorflow`
+4. 설정 (자동 감지 또는 수동):
+   - **Build Command**: `pip install -r requirements.txt`
+   - **Start Command**: `gunicorn --workers 1 --timeout 120 --bind 0.0.0.0:$PORT app:app`
+5. **Create Web Service** 클릭
+
+> ⚠️ **참고**: TensorFlow 설치로 인해 첫 빌드에 5~10분 정도 소요될 수 있습니다.
+
+**배포 전 확인사항**
+- `models/cifar10_classifier.h5`와 `models/class_names.json`이 GitHub에 커밋되어 있어야 합니다.
 
 ## 📖 사용 방법
 
